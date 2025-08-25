@@ -1,0 +1,15 @@
+🔹 Nivel 0 – Súper básicos (JS lógica y sintaxis)
+
+Contar vocales en un string.
+
+Invertir un string ("bruno" → "onurb").
+
+Palíndromo: comprobar si una palabra se lee igual al revés.
+
+Contar palabras en una oración.
+
+Encontrar el número más grande de un array.
+
+Eliminar duplicados de un array.
+
+FizzBuzz clásico: imprimir números del 1 al 100, pero múltiplos de 3 → "Fizz", múltiplos de 5 → "Buzz", múltiplos de ambos → "FizzBuzz".
