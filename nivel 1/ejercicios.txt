@@ -1,0 +1,15 @@
+🔹 Nivel 1 – Intermedio (arrays y objetos)
+
+1 - Frecuencia de caracteres en un string ("hola" → {h:1, o:1, l:1, a:1}).
+
+2 - Frecuencia de palabras en una oración.
+
+3 - Rotar un array N posiciones ([1,2,3,4,5], rotar 2 → [4,5,1,2,3]).
+
+4 - Flat array: convertir un array anidado en uno plano ([1,[2,3],[4,[5]]] → [1,2,3,4,5]).
+
+5 - Ordenar objetos por propiedad (ordenar lista de usuarios por edad).
+
+6 - Merge arrays eliminando duplicados.
+
+7 - Encontrar el 2º número más grande en un array.
