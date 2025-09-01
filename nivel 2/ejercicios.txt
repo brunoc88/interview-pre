@@ -1,0 +1,15 @@
+🔹 Nivel 2 – Algoritmos y recursividad
+
+Factorial de un número (iterativo y recursivo).
+
+Fibonacci (iterativo y recursivo).
+
+Buscar un valor en un array ordenado (binary search).
+
+Bubble sort: ordenar un array sin usar .sort().
+
+Reverse linked list (teórico primero, después práctico).
+
+Deep clone de un objeto sin structuredClone ni lodash.
+
+Throttle y debounce (implementación simple).
