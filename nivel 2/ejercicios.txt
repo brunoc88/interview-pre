@@ -1,12 +1,12 @@
 🔹 Nivel 2 – Algoritmos y recursividad
 
-Factorial de un número (iterativo y recursivo).
+1 - Factorial de un número (iterativo y recursivo).
 
-Fibonacci (iterativo y recursivo).
+2 - Fibonacci (iterativo y recursivo).
 
-Buscar un valor en un array ordenado (binary search).
+3 - Buscar un valor en un array ordenado (binary search).
 
-Bubble sort: ordenar un array sin usar .sort().
+4 - Bubble sort: ordenar un array sin usar .sort().
 
 Reverse linked list (teórico primero, después práctico).
 
