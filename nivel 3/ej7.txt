@@ -1,0 +1,34 @@
+7 - Sequelize/Mongoose: populate/join para traer relaciones.
+
+Por ejemplo publicacion y comentarios de la misma
+
+// Mongoose
+
+const publicacion = await Publicacion.findById(id)
+  .populate({
+    path: 'comentarios',
+    populate: { path: 'usuario', select: 'nombre email' } // traer solo campos específicos
+  });
+
+
+// Sequelize
+
+const publicacion = await Publicacion.findByPk(id, {
+  include: {
+    model: Comentario,
+    include: {
+      model: Usuario,
+      attributes: ['nombre', 'email'] // solo algunos campos
+    }
+  }
+});
+
+⚡ Comparación rápida Mongoose vs Sequelize
+
+| Función            | Mongoose                                                 | Sequelize                                                     |
+| ------------------ | -------------------------------------------------------- | ------------------------------------------------------------- |
+| Traer relación 1-n | `populate('campo')`                                      | `include: { model: OtroModelo }`                              |
+| Traer relación n-n | `populate('campo')`                                      | `include: { model: OtroModelo }` con through table            |
+| Sub-populate       | `populate({ path: 'comentarios', populate: 'usuario' })` | `include: { model: Comentario, include: { model: Usuario } }` |
+| Seleccionar campos | `select('campo1 campo2')`                                | `attributes: ['campo1', 'campo2']`                            |
+

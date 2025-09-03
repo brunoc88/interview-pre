@@ -1,0 +1,17 @@
+🔹 Nivel 3 – SQL y Backend práctico
+
+1 - SQL: seleccionar todos los usuarios mayores de 18.
+
+2 - SQL: traer posts con su autor (JOIN).
+
+3 - SQL: contar cuántos posts tiene cada usuario (GROUP BY).
+
+4 - SQL: obtener el último usuario registrado (ORDER BY + LIMIT).
+
+5 - Sequelize/Mongoose: implementar CRUD básico.
+
+6 - Sequelize/Mongoose: paginación (limit, skip / offset).
+
+7 - Sequelize/Mongoose: populate/join para traer relaciones.
+
+8 - Autenticación: implementar login con bcrypt.compare y JWT.

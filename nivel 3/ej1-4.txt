@@ -1,0 +1,66 @@
+1 - SQL: seleccionar todos los usuarios mayores de 18.
+
+SELECT * FROM usuarios where edad > 18
+
+2 - SQL: traer posts con su autor (JOIN).
+
+SELECT p.*, u.*
+FROM posts p
+JOIN usuarios u ON p.usuario_id = u.id;
+
+
+3 - SQL: contar cuántos posts tiene cada usuario (GROUP BY).
+
+SELECT u.id, u.nombre, COUNT(p.id) AS total_posts
+FROM usuarios u
+LEFT JOIN posts p ON p.usuario_id = u.id
+GROUP BY u.id, u.nombre;
+
+👉 Uso LEFT JOIN para que también salgan usuarios con 0 posts.
+Si usás INNER JOIN, se listan solo los que tienen al menos 1 post.
+
+4 - SQL: obtener el último usuario registrado (ORDER BY + LIMIT).
+
+SELECT * 
+FROM usuarios
+ORDER BY fecha_creacion DESC
+LIMIT 1;
+
+Tenés que ordenar en orden descendente (DESC) por la columna de fecha, y quedarte con el primero.
+
+
+----- extras -----
+- Usuarios con email en Gmail
+
+SELECT * 
+FROM usuarios
+WHERE email LIKE '%@gmail.com';
+
+- Top 3 usuarios con más posts
+
+SELECT u.id, u.nombre, COUNT(p.id) AS total_posts
+FROM usuarios u
+JOIN posts p ON p.usuario_id = u.id
+GROUP BY u.id, u.nombre
+ORDER BY total_posts DESC
+LIMIT 3;
+
+- Cantidad total de posts por categoría
+
+SELECT c.nombre, COUNT(p.id) AS total_posts
+FROM categorias c
+LEFT JOIN posts p ON p.categoria_id = c.id
+GROUP BY c.id, c.nombre;
+
+- Obtener todos los posts creados en 2024
+
+SELECT *
+FROM posts
+WHERE YEAR(fecha_creacion) = 2024;
+
+- Traer los usuarios que no tienen posts
+
+SELECT u.id, u.nombre
+FROM usuarios u
+LEFT JOIN posts p ON p.usuario_id = u.id
+WHERE p.id IS NULL;

@@ -1,0 +1,172 @@
+5 - Sequelize/Mongoose: implementar CRUD básico.
+
+// Mongoose
+
+// CREATE
+app.post('/car', async (req, res, next) => {
+  try {
+    let { model, color, brand, year } = req.body;
+
+    // sanitización
+    model = model?.trim().toLowerCase();
+    color = color?.trim().toLowerCase();
+    brand = brand?.trim().toLowerCase();
+
+    if (!model || !color || !brand || !year) {
+      return res.status(400).json({ error: 'Formulario incompleto!' });
+    }
+
+    const car = new Car({ model, color, brand, year });
+    const carSaved = await car.save();
+
+    return res.status(201).json({ msj: 'Vehículo creado', car: carSaved });
+  } catch (error) {
+    next(error);
+  }
+});
+
+// READ
+app.get('/car/:id', async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const car = await Car.findById(id);
+
+    if (!car) {
+      return res.status(404).json({ error: 'Auto no registrado o eliminado' });
+    }
+
+    return res.status(200).json(car);
+  } catch (error) {
+    next(error);
+  }
+});
+
+// UPDATE
+app.put('/car/:id', async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const data = req.body;
+
+    if (!data || Object.keys(data).length === 0) {
+      return res.status(400).json({ error: 'Debe ingresar al menos un dato' });
+    }
+
+    const carUpdated = await Car.findByIdAndUpdate(id, data, { new: true }); <--- para devolver el objeto ya actualizado
+
+    if (!carUpdated) {
+      return res.status(404).json({ error: 'Auto no encontrado' });
+    }
+
+    return res.status(200).json({ msj: 'Vehículo actualizado', car: carUpdated });
+  } catch (error) {
+    next(error);
+  }
+});
+
+// DELETE
+app.delete('/car/:id', async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const carDeleted = await Car.findByIdAndDelete(id);
+
+    if (!carDeleted) {
+      return res.status(404).json({ error: 'Auto no encontrado' });
+    }
+
+    return res.status(200).json({ msj: 'Vehículo eliminado', car: carDeleted });
+  } catch (error) {
+    next(error);
+  }
+});
+
+// Sequelize
+
+// CREATE
+app.post('/car', async (req, res, next) => {
+  try {
+    let { model, color, brand, year } = req.body;
+
+    // sanitización
+    model = model?.trim().toLowerCase();
+    color = color?.trim().toLowerCase();
+    brand = brand?.trim().toLowerCase();
+
+    if (!model || !color || !brand || !year) {
+      return res.status(400).json({ error: 'Formulario incompleto!' });
+    }
+
+    const carSaved = await Car.create({ model, color, brand, year });
+
+    return res.status(201).json({ msj: 'Vehículo creado', car: carSaved });
+  } catch (error) {
+    next(error);
+  }
+});
+
+// READ
+app.get('/car/:id', async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const car = await Car.findByPk(id);
+
+    if (!car) {
+      return res.status(404).json({ error: 'Auto no registrado o eliminado' });
+    }
+
+    return res.status(200).json(car);
+  } catch (error) {
+    next(error);
+  }
+});
+
+// UPDATE
+app.put('/car/:id', async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const data = req.body;
+
+    if (!data || Object.keys(data).length === 0) {
+      return res.status(400).json({ error: 'Debe ingresar al menos un dato' });
+    }
+
+    const [rowsUpdated] = await Car.update(data, { where: { id } });
+
+    if (rowsUpdated === 0) {
+      return res.status(404).json({ error: 'Auto no encontrado' });
+    }
+
+    const carUpdated = await Car.findByPk(id);
+    return res.status(200).json({ msj: 'Vehículo actualizado', car: carUpdated });
+  } catch (error) {
+    next(error);
+  }
+});
+
+// DELETE
+app.delete('/car/:id', async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    const rowsDeleted = await Car.destroy({ where: { id } });
+
+    if (rowsDeleted === 0) {
+      return res.status(404).json({ error: 'Auto no encontrado' });
+    }
+
+    return res.status(200).json({ msj: 'Vehículo eliminado' });
+  } catch (error) {
+    next(error);
+  }
+});
+
+Machete comparativo CRUD: Mongoose vs Sequelize
+
+
+| Operación                | Mongoose                                         | Sequelize                                                                                             |
+| ------------------------ | ------------------------------------------------ | ----------------------------------------------------------------------------------------------------- |
+| **Crear**                | `Car.create(data)` o `new Car(data).save()`      | `Car.create(data)`                                                                                    |
+| **Leer por ID**          | `Car.findById(id)`                               | `Car.findByPk(id)`                                                                                    |
+| **Actualizar por ID**    | `Car.findByIdAndUpdate(id, data, { new: true })` | `Car.update(data, { where: { id } })` *(luego buscar con `findByPk` si querés el objeto actualizado)* |
+| **Eliminar por ID**      | `Car.findByIdAndDelete(id)`                      | `Car.destroy({ where: { id } })`                                                                      |
+| **Leer todos**           | `Car.find()`                                     | `Car.findAll()`                                                                                       |
+| **Buscar con condición** | `Car.find({ brand: 'toyota' })`                  | `Car.findAll({ where: { brand: 'toyota' } })`                                                         |

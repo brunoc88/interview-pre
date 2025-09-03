@@ -7,9 +7,3 @@
 3 - Buscar un valor en un array ordenado (binary search).
 
 4 - Bubble sort: ordenar un array sin usar .sort().
-
-Reverse linked list (teórico primero, después práctico).
-
-Deep clone de un objeto sin structuredClone ni lodash.
-
-Throttle y debounce (implementación simple).
