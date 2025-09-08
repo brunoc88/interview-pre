@@ -81,3 +81,21 @@ const secondMax = (numbers) => {
 console.log(secondMax([10, 20, 1, 5])); // { max: 20, sMax: 10 }
 console.log(secondMax([-5, -2, -10]));  // { max: -2, sMax: -5 }
 */
+
+// Mi forma:
+
+let secondMax = (arr) =>{
+    let max = arr[0]
+    let second = -Infinity
+
+    for(let n of arr) {
+        if(n > max){
+            second = max
+            max = n
+        }
+    }
+
+    return second
+}
+
+console.log(secondMax([1,2,10,3,22]))

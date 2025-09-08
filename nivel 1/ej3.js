@@ -13,3 +13,18 @@ const rotar = (arr, n) => {
 
 console.log(rotar(numbers, 2));
 // [4, 5, 1, 2, 3]
+
+
+// Mi forma:
+
+let rotarX = (arr, n) => {
+    
+    for(let i = arr.length-1 ; i>=n ; i--) {
+        let temp = arr.pop()
+        arr.unshift(temp)
+    }
+    return arr
+}
+
+console.log(rotarX([1,2,3,4],2))
+
