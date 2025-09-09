@@ -1,0 +1,94 @@
+// Login con bcrypt.compare.
+
+// mongoose
+const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
+const { SECRET } = require('../utils/config')
+
+app.post('/login, async (req, res, next) => {
+    try {
+        let {usuario, password} = req.body
+
+        if(!usuario || !password) return res.status(400).json({error:'ingrese un usuario o password'})
+
+        let checkUser = await User.findOne({
+            $or:[{
+                usuario:usuario
+            }, {email:usuario}]
+        })
+
+        if(!checkUser) return res.status(404).json({error:'Cuenta inextistente o desactivada'})
+
+        let checkPassword = await bcrypt.compare(password, checkUser.password)
+
+        if(!checkPassword) return res.status(401).json({error: 'password incorrecto'})
+
+        let nuevoToken = {
+            usuario: checkUser.usuario,
+            email: checkUser.email,
+            id: checkUser.id
+        }
+
+        let token = jwt.sign(
+            nuevoToken,
+            SECRET,
+            {expired in : 1h`}
+        )
+        
+        return res.status(200).json({msj:'bievenido', token, user: nuevoToken})
+
+
+    }catch(error) {
+        next(error)
+    }
+})
+
+// sequelize
+
+const { Op } = require('sequelize');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const SECRET_KEY = 'tu_clave_secreta_aqui';
+
+app.post('/login', async (req, res, next) => {
+    try {
+        let { usuario, password } = req.body;
+
+        if(!usuario || !password) 
+            return res.status(400).json({ error: 'Ingrese un usuario o password' });
+
+        let checkUser = await User.findOne({
+            where: {
+                [Op.or]: [
+                    { usuario: usuario },
+                    { email: usuario }
+                ]
+            }
+        });
+
+        if(!checkUser) 
+            return res.status(404).json({ error: 'Cuenta inexistente o desactivada' });
+
+        let checkPassword = await bcrypt.compare(password, checkUser.password);
+
+        if(!checkPassword) 
+            return res.status(401).json({ error: 'Password incorrecto' });
+
+        let nuevoToken = {
+            usuario: checkUser.usuario,
+            email: checkUser.email,
+            id: checkUser.id
+        };
+
+        let token = jwt.sign(
+            nuevoToken,
+            SECRET_KEY,
+            { expiresIn: '1h' }
+        );
+        
+        return res.status(200).json({ msj: 'Bienvenido', token, user: nuevoToken });
+
+    } catch(error) {
+        next(error);
+    }
+});
